@@ -16,6 +16,10 @@ const config: HardhatUserConfig = {
     etherlinkTestnet: {
       url: "https://node.ghostnet.etherlink.com",
       accounts: [privateKey],
+    },
+    etherlink: {
+      url: "https://node.mainnet.etherlink.com",
+      accounts: [privateKey]
     }
   },
   etherscan: {

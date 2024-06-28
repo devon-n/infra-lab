@@ -2,16 +2,21 @@ import { ethers, network } from 'hardhat';
 import web3 from 'web3';
 import { eth } from "web3";
 
+const contractAddresses = require("./ContractAddresses.json")
+
 async function main() {
-  const entropyContract = await ethers.getContractAt("Entropy", "0x556CBf2f2cAac2781522c45fA9492Bcc6e343dB9")
+  const entropyAddress = contractAddresses[network.name]["Entropy"]
+  if (!entropyAddress) throw new Error(`Unsupported network: ${network.name}`)
+
+  const entropyContract = await ethers.getContractAt("Entropy", entropyAddress)
 
   // Running getRandomNumber function
   const randomNumber = web3.utils.randomHex(32)
   const fee = await entropyContract.getFee() + BigInt(1)
-  const tx = await entropyContract.getRandomNumber(randomNumber, {value: fee.toString()})
+  const tx = await entropyContract.getRandomNumber(randomNumber, { value: fee.toString() })
   const txReceipt = await tx.wait();
 
-  if(!txReceipt){
+  if (!txReceipt) {
     console.error("Transaction receipt is null");
     return;
   }
@@ -33,7 +38,7 @@ async function main() {
       log.data,
       log.topics.slice(1)
     );
-    
+
     console.log(`Random Number: ${decodedLog.randomNumber}`);
   });
 }

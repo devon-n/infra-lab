@@ -1,0 +1,10 @@
+{
+  "bscTestnet": {
+    "PriceFeed": "0x5744Cbf430D99456a0A8771208b674F27f8EF0Fb"
+  },
+  "etherlinkTestnet": {
+    "Entropy": "0x556CBf2f2cAac2781522c45fA9492Bcc6e343dB9",
+    "PriceFeed": "0x2880aB155794e7179c9eE2e38200202908C17B43"
+  },
+  "etherlink": {}
+}

@@ -1,13 +1,13 @@
-import { ethers } from "hardhat";
+import { ethers, network } from "hardhat";
 import { DataConsumer } from "../../typechain-types";
 import { verifyContract } from "../utils/verify";
 
 // On Etherlink testnet
-const redstonePriceFeed = {
-  ETH: '0xb31D94df41ccc22b46fd2Ae4eA2a6D6eB9c23bfb',
-  BTC: '0xfe66A25096128f57D3876D42cD2B4347a77784c2',
-  XTZ: '0xE06FE39f066562DBfE390167AE49D8Cb66e1F887'
-};
+const contractAddresses = require("./ContractAddresses.json")
+const redstonePriceFeed = contractAddresses[network.name]["redstonePriceFeed"]
+
+if (!redstonePriceFeed) throw new Error(`Unsupported Network: ${network.name}`)
+
 
 async function main() {
   // deploy data consumers
