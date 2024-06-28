@@ -1,21 +1,33 @@
 import { ethers, network } from "hardhat";
+import abi from "@chainlink/contracts/abi/v0.8/AggregatorV3Interface.json"
+
 const contractAddresses = require("./ContractAddresses.json")
-const dataConsumers = contractAddresses[network.name]["dataConsumers"]
+const dataConsumers = contractAddresses[network.name]
 
 if (!dataConsumers) throw new Error(`Unsupported Network: ${network.name}`)
 
 async function main() {
-  // deploy data consumers
-  const decimalsToKeep = 4;
-  const dataConsumerETH = await ethers.getContractAt('DataConsumer', dataConsumers.ETH);
-  const dataConsumerBTC = await ethers.getContractAt('DataConsumer', dataConsumers.BTC);
-  const dataConsumerXTZ = await ethers.getContractAt('DataConsumer', dataConsumers.XTZ);
-  const ethPrice = (await dataConsumerETH.getDataFeedLatestAnswer(decimalsToKeep)).toString();
-  const btcPrice = (await dataConsumerBTC.getDataFeedLatestAnswer(decimalsToKeep)).toString();
-  const xtzPrice = (await dataConsumerXTZ.getDataFeedLatestAnswer(decimalsToKeep)).toString();
-  console.log(`ETH price: ${ethPrice.slice(0, -decimalsToKeep)}.${ethPrice.slice(-decimalsToKeep)} USD`);
-  console.log(`BTC price: ${btcPrice.slice(0, -decimalsToKeep)}.${btcPrice.slice(-decimalsToKeep)} USD`);
-  console.log(`XTZ price: ${xtzPrice.slice(0, -decimalsToKeep)}.${xtzPrice.slice(-decimalsToKeep)} USD`);
+  const accounts = await ethers.getSigners()
+
+  let contract = new ethers.Contract(dataConsumers.ETH, abi, accounts[0])
+  let decimals = Number(await contract.decimals())
+  let answer = (await contract.latestRoundData())[1]
+  const ETHPrice = ethers.formatUnits(answer.toString(), decimals)
+
+  contract = new ethers.Contract(dataConsumers.BTC, abi, accounts[0])
+  decimals = Number(await contract.decimals())
+  answer = (await contract.latestRoundData())[1]
+  const BTCPrice = ethers.formatUnits(answer.toString(), decimals)
+
+  contract = new ethers.Contract(dataConsumers.XTZ, abi, accounts[0])
+  decimals = Number(await contract.decimals())
+  answer = (await contract.latestRoundData())[1]
+  const XTZPrice = ethers.formatUnits(answer.toString(), decimals)
+
+  console.log(`\nETH Price: ${Number(ETHPrice).toFixed(2)} USD`)
+  console.log(`BTC Price: ${Number(BTCPrice).toFixed(2)} USD`)
+  console.log(`XTZ Price: ${Number(XTZPrice).toFixed(2)} USD\n`)
+
 }
 
 main().catch((error) => {

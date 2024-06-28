@@ -1,16 +1,8 @@
 {
-  "bscTestnet": {},
   "etherlinkTestnet": {
-    "redstonePriceFeed": {
-      "ETH": "0xb31D94df41ccc22b46fd2Ae4eA2a6D6eB9c23bfb",
-      "BTC": "0xfe66A25096128f57D3876D42cD2B4347a77784c2",
-      "XTZ": "0xE06FE39f066562DBfE390167AE49D8Cb66e1F887"
-    },
-    "dataConsumers": {
-      "ETH": "0x5C155c3368dCCb4150C5D926c29074591DF3dD6e",
-      "BTC": "0xa02662113053b55CfB5B39c1Ad22322E9025F4A2",
-      "XTZ": "0xd23b612D8A1E084090ce1936436feAA304ab3017"
-    }
+    "ETH": "0xb31D94df41ccc22b46fd2Ae4eA2a6D6eB9c23bfb",
+    "BTC": "0xfe66A25096128f57D3876D42cD2B4347a77784c2",
+    "XTZ": "0xE06FE39f066562DBfE390167AE49D8Cb66e1F887"
   },
   "etherlink": {
     "ETH": "0xF0F22f4b9e49a0d6ade134A9d71D37cc0117951F",
